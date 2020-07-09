@@ -18,7 +18,7 @@ class Checkout extends Component{
             // in用于遍历object的属性，of用于遍历iterable对象
             // param - ['salad', '1']
             if (param[0] === 'price') {
-                price = +param[1];
+                price = Number.parseFloat(param[1]).toFixed(2);
                 console.log("Order price is " + price);
             } else {
                 ingredients[param[0]] = +param[1];  // 取出来的是字符，+用来转换成数字
