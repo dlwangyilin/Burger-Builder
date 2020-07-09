@@ -35,13 +35,13 @@ class BurgerBuilder extends Component {
 
     updatePurchaseState(ingredients) {
 
-        const sum = Object.keys(ingredients)
-            .map((igKey => {
-                return ingredients[igKey]
-            }))
-            .reduce((sum, el) => {
+        const sum = Object.keys( ingredients )
+            .map( igKey => {
+                return ingredients[igKey];
+            } )
+            .reduce( ( sum, el ) => {
                 return sum + el;
-            },0);
+            }, 0 );
         this.setState({purchasable: sum > 0});
 
     };
@@ -104,8 +104,16 @@ class BurgerBuilder extends Component {
         //         console.log(error);
         //         this.setState({loading: false, purchasing: false});
         //     });
-        this.props.history.push('/checkout');
-    };
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        }
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
+    }
 
     render() {
         const disableInfo = {

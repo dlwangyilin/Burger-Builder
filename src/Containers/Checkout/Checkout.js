@@ -11,6 +11,18 @@ class Checkout extends Component{
         }
     }
 
+    componentDidMount() {
+        const query = new URLSearchParams(this.props.location.search);
+        const ingredients = {};
+        for (let param of query.entries()) {
+            // in用于遍历object的属性，of用于遍历iterable对象
+            // param - ['salad', '1']
+            ingredients[param[0]] = +param[1];  // 取出来的是字符，+用来转换成数字
+
+        }
+        this.setState({ingredients: ingredients});
+    }
+
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
