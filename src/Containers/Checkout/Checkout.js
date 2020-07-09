@@ -1,26 +1,31 @@
 import React, {Component} from "react";
 import CheckoutSummary from '../../Components/Order/CheckoutSummary/CheckoutSummary';
+import {Route} from 'react-router-dom';
+import ContactData from "./ContactData/ContactData";
 
 class Checkout extends Component{
     state = {
-        ingredients: {
-            salad: 1,
-            meat: 1,
-            cheese: 1,
-            bacon: 1
-        }
+        ingredients: null,
+        price: 0
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const query = new URLSearchParams(this.props.location.search);
         const ingredients = {};
+        let price = 0;
+        console.log("Checkout will mount");
         for (let param of query.entries()) {
             // in用于遍历object的属性，of用于遍历iterable对象
             // param - ['salad', '1']
-            ingredients[param[0]] = +param[1];  // 取出来的是字符，+用来转换成数字
-
+            if (param[0] === 'price') {
+                price = +param[1];
+                console.log("Order price is " + price);
+            } else {
+                ingredients[param[0]] = +param[1];  // 取出来的是字符，+用来转换成数字
+            }
         }
-        this.setState({ingredients: ingredients});
+        this.setState({ingredients: ingredients, price: price});
+        console.log(this.state);
     }
 
     checkoutCancelledHandler = () => {
@@ -37,6 +42,8 @@ class Checkout extends Component{
                 <CheckoutSummary ingredients={this.state.ingredients}
                                  checkoutCancelled={this.checkoutCancelledHandler}
                                  checkoutContinued={this.checkoutContinuedHandler}/>
+                <Route path={this.props.match.path + '/contact-data'}
+                       render={(props) => (<ContactData {...props} ingredients={this.state.ingredients} price={this.state.price}/>)}/>
             </div>
         );
     }
