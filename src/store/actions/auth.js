@@ -38,7 +38,7 @@ export const auth = (email, password, isSignup) => {
         } else {
             url = signInUrl;
         }
-        const APIKey = "AIzaSyBgYeoNKgiVA3NCDCsP0v8T-bVth0-ZDDk";
+        const APIKey = process.env.REACT_APP_API_KEY;
         axios.post(url + APIKey, authData)
             .then(response => {
                 console.log(response);
