@@ -56,6 +56,7 @@ class Auth extends Component {
             isValid = value.length <= rules.maxLength && isValid;
         }
 
+
         return isValid;
     }
 
